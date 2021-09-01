@@ -8,25 +8,27 @@
     phx-target={@myself}
     phx-change="validate"
     phx-submit="save">
-  
+
     <%= label f, :title %>
     <%= text_input f, :title %>
     <%= error_tag f, :title %>
-  
+
     <%= label f, :notes %>
     <%= textarea f, :notes %>
     <%= error_tag f, :notes %>
-  
+
     <%= label f, :rating %>
     <%= number_input f, :rating %>
     <%= error_tag f, :rating %>
-  
+
     <%= label f, :status %>
     <%= text_input f, :status %>
     <%= error_tag f, :status %>
-  
+
     <div>
       <%= submit "Save", phx_disable_with: "Saving..." %>
+      <%= live_patch "Cancel", to: @return_to, class: "text-sm" %>
     </div>
   </.form>
+  <span><%= link "Delete", to: "#", phx_click: "delete", phx_value_id: @item.id, data: [confirm: "Are you sure?"] %></span>
 </div>

@@ -6,7 +6,7 @@ defmodule MediaBucketWeb.ItemLive.Index do
 
   @impl true
   def mount(_params, _session, socket) do
-    {:ok, assign(socket, :items, list_items())}
+    {:ok, assign(socket, :categories, list_categories())}
   end
 
   @impl true
@@ -37,10 +37,10 @@ defmodule MediaBucketWeb.ItemLive.Index do
     item = Media.get_item!(id)
     {:ok, _} = Media.delete_item(item)
 
-    {:noreply, assign(socket, :items, list_items())}
+    {:noreply, push_redirect(socket, to: Routes.item_index_path(socket, :index))}
   end
 
-  defp list_items do
-    Media.list_items()
+  defp list_categories do
+    Media.list_categories()
   end
 end

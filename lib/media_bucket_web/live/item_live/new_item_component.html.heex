@@ -15,6 +15,7 @@
 
     <div>
       <%= submit "Save", phx_disable_with: "Saving..." %>
+      <%= live_patch "Cancel", to: @return_to, class: "text-sm" %>
     </div>
   </.form>
 </div>
