@@ -2,7 +2,7 @@ defmodule MediaBucketWeb.ItemLive.Index do
   use MediaBucketWeb, :live_view
 
   alias MediaBucket.Media
-  alias MediaBucket.Media.Item
+  alias MediaBucket.Media.{Category, Item}
 
   @impl true
   def mount(_params, _session, socket) do
@@ -33,7 +33,31 @@ defmodule MediaBucketWeb.ItemLive.Index do
   end
 
   @impl true
-  def handle_event("delete", %{"id" => id}, socket) do
+  def handle_info({:updated_item, item}, socket) do
+    categories = socket.assigns.categories |> Enum.map(&maybe_update_category(item, &1))
+
+    {:noreply, assign(socket, categories: categories)}
+  end
+
+  defp maybe_update_category(%Item{category_id: category_id} = item, %Category{id: id} = category)
+       when category_id == id do
+    %{category | items: maybe_update_item(item, category.items)}
+  end
+
+  defp maybe_update_category(_item, category), do: category
+
+  defp maybe_update_item(%Item{} = item, items) do
+    items
+    |> Enum.map(fn t ->
+      cond do
+        t.id == item.id -> item
+        true -> t
+      end
+    end)
+  end
+
+  @impl true
+  def handle_event("deletœe", %{"id" => id}, socket) do
     item = Media.get_item!(id)
     {:ok, _} = Media.delete_item(item)
 
