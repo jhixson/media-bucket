@@ -1,0 +1,6 @@
+{
+  "css.validate": false,
+  "[css]": {
+    "editor.formatOnSave": true
+  }
+}
