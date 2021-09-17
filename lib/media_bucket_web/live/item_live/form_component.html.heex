@@ -1,5 +1,5 @@
 <div>
-  <h2><%= @title %></h2>
+  <h2 class="mb-8 text-xl font-medium"><%= @title %></h2>
 
   <.form
     let={f}
@@ -9,26 +9,37 @@
     phx-change="validate"
     phx-submit="save">
 
-    <%= label f, :title %>
-    <%= text_input f, :title %>
-    <%= error_tag f, :title %>
+    <div class="mb-8">
+      <%= label f, :title, class: "block text-xs text-gray-400" %>
+      <%= text_input f, :title, class: "w-full py-1 border-0 border-b bg-transparent" %>
+      <%= error_tag f, :title %>
+    </div>
 
-    <%= label f, :notes %>
-    <%= textarea f, :notes %>
-    <%= error_tag f, :notes %>
+    <div class="mb-8 relative">
+      <%= label f, :rating, class: "block mb-2 text-xs text-gray-400" %>
+      <%= range_input f, :rating, min: 0, max: 5, step: 1, class: "appearance-none w-full bg-transparent" %>
+      <%= error_tag f, :rating %>
+      <span class="absolute top-1 flex justify-center items-center w-6 h-6 bg-gray-200 text-gray-600 text-xs rounded-full range-tooltip" style={"--left: #{Map.get(@changeset.changes, :rating, @item.rating) * 20}%"}"><%= Map.get(@changeset.changes, :rating, @item.rating) %></span>
+    </div>
 
-    <%= label f, :rating %>
-    <%= number_input f, :rating %>
-    <%= error_tag f, :rating %>
+    <div class="mb-8">
+      <%= label f, :notes, class: "block text-xs text-gray-400" %>
+      <%= text_input f, :notes, class: "w-full py-1 border-0 border-b bg-transparent" %>
+      <%= error_tag f, :notes %>
+    </div>
 
-    <%= label f, :status %>
-    <%= text_input f, :status %>
-    <%= error_tag f, :status %>
+    <div class="mb-8">
+      <%= label f, :status, class: "block text-xs text-gray-400" %>
+      <%= select f, :status, Ecto.Enum.mappings(MediaBucket.Media.Item, :status) |> Enum.map(fn {k, v} -> {String.capitalize(v), k} end), class: "custom-select appearance-none px-0 pr-3 py-1 bg-gray-700 border-b" %>
+      <%= error_tag f, :status %>
+    </div>
 
-    <div>
-      <%= submit "Save", phx_disable_with: "Saving..." %>
-      <%= live_patch "Cancel", to: @return_to, class: "text-sm" %>
+    <div class="flex justify-between">
+      <%= link "Delete", to: "#", phx_click: "delete", phx_value_id: @item.id, data: [confirm: "Are you sure?"], class: "px-3 py-2 text-red-500 text-sm uppercase tracking-wide hover:bg-gray-600 hover:rounded" %>
+      <div class="flex items-center space-x-1">
+        <%= live_patch "Cancel", to: @return_to, class: "px-3 py-2 text-gray-400 text-sm uppercase tracking-wide hover:bg-gray-600 hover:rounded" %>
+        <%= submit "Save", phx_disable_with: "Saving...", class: "px-3 py-2 text-gray-400 text-sm uppercase tracking-wide hover:bg-gray-600 hover:rounded" %>
+      </div>
     </div>
   </.form>
-  <span><%= link "Delete", to: "#", phx_click: "delete", phx_value_id: @item.id, data: [confirm: "Are you sure?"] %></span>
 </div>

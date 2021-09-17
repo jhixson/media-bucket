@@ -1,0 +1,60 @@
+input[type='range'] {
+  @apply w-full h-2 appearance-none;
+}
+
+input[type='range']:focus {
+  @apply outline-none;
+}
+
+input[type='range']::-webkit-slider-runnable-track {
+  @apply w-full h-px bg-gray-200 border-none shadow-none;
+}
+
+input[type='range']::-webkit-slider-thumb {
+  @apply w-3 h-3 bg-gray-200 rounded-full shadow-none cursor-pointer appearance-none;
+
+  margin-top: -6px;
+}
+
+input[type='range']:focus::-webkit-slider-runnable-track {
+  @apply bg-gray-200;
+}
+
+input[type='range']::-moz-range-track {
+  @apply w-full h-px bg-gray-200 border-0 shadow-none;
+}
+
+input[type='range']::-moz-range-thumb {
+  @apply w-3 h-3 bg-gray-200 rounded-full border-none shadow-none cursor-pointer;
+}
+
+/* hacky garbage */
+input[type='range'][value='0'] ~ .range-tooltip {
+  @apply hidden;
+}
+
+input[type='range'][value='1'] ~ .range-tooltip {
+  --offset: 4px;
+}
+
+input[type='range'][value='2'] ~ .range-tooltip {
+  --offset: 1px;
+}
+
+input[type='range'][value='3'] ~ .range-tooltip {
+  --offset: -1px;
+}
+
+input[type='range'][value='4'] ~ .range-tooltip {
+  --offset: -3px;
+}
+
+input[type='range'][value='5'] ~ .range-tooltip {
+  --offset: -6px;
+}
+
+.range-tooltip {
+  --left: 0%;
+
+  left: calc(var(--left) - 0.75rem + var(--offset));
+}

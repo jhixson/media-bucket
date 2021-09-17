@@ -16,7 +16,7 @@ defmodule MediaBucketWeb.ItemLive.Index do
 
   defp apply_action(socket, :edit, %{"id" => id}) do
     socket
-    |> assign(:page_title, "Edit Item")
+    |> assign(:page_title, "Update Item")
     |> assign(:item, Media.get_item!(id))
   end
 
@@ -57,7 +57,7 @@ defmodule MediaBucketWeb.ItemLive.Index do
   end
 
   @impl true
-  def handle_event("deletœe", %{"id" => id}, socket) do
+  def handle_event("delete", %{"id" => id}, socket) do
     item = Media.get_item!(id)
     {:ok, _} = Media.delete_item(item)
 

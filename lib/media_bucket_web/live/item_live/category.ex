@@ -10,10 +10,18 @@ defmodule MediaBucketWeb.ItemLive.Category do
       </div>
       <ul>
         <%= for item <- @category.items do %>
-          <%= live_component MediaBucketWeb.ItemLive.Item, id: item.id, item: item %>
+          <%= live_component MediaBucketWeb.ItemLive.Item, id: item.id, item: item, status_icon: status_icon(item.status)  %>
         <% end %>
       </ul>
     </div>
     """
+  end
+
+  defp status_icon(status) do
+    case status do
+      :started -> "far fa-minus-square"
+      :finished -> "far fa-check-square"
+      _ -> "far fa-square"
+    end
   end
 end

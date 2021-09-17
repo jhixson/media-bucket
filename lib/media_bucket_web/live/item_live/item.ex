@@ -4,8 +4,8 @@ defmodule MediaBucketWeb.ItemLive.Item do
   def render(assigns) do
     ~H"""
     <li class="flex justify-between items-center space-x-2 mb-4 p-4 bg-gray-700 border border-gray-600 rounded-md">
-      <label class="flex space-x-2 items-center" phx-click="checkit" phx-target={@myself}>
-        <span><%= @item.status %></span>
+      <label class="flex space-x-2 items-center cursor-pointer" phx-click="checkit" phx-target={@myself}>
+        <i class={@status_icon}></i>
         <h3><%= @item.title %></h3>
       </label>
       <%= live_patch to: Routes.item_index_path(@socket, :edit, @item) do %>

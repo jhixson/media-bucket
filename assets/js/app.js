@@ -27,8 +27,18 @@ import {Socket} from "phoenix"
 import {LiveSocket} from "phoenix_live_view"
 import topbar from "../vendor/topbar"
 
-window.Alpine = Alpine;
-Alpine.start();
+// window.Alpine = Alpine;
+// Alpine.start();
+
+const range = document.querySelector("input[type='range']");
+const rangeTooltip = document.querySelector(".range-tooltip");
+if (range && rangeTooltip) {
+  range.addEventListener('input', e => {
+    const { value } = e.target;
+    console.log(value)
+    rangeTooltip.style.setProperty('--left', `${value * 20}%`);
+  }, false);
+}
 
 let csrfToken = document.querySelector("meta[name='csrf-token']").getAttribute("content")
 let liveSocket = new LiveSocket("/live", Socket, {params: {_csrf_token: csrfToken}})
