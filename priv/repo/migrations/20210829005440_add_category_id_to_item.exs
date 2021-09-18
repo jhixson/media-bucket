@@ -1,4 +1,4 @@
-defmodule MediaApi.Repo.Migrations.AddCategoryIdToItem do
+defmodule MediaBucket.Repo.Migrations.AddCategoryIdToItem do
   use Ecto.Migration
 
   def change do

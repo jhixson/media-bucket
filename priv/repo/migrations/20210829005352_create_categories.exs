@@ -1,4 +1,4 @@
-defmodule MediaApi.Repo.Migrations.CreateCategories do
+defmodule MediaBucket.Repo.Migrations.CreateCategories do
   use Ecto.Migration
 
   def change do
