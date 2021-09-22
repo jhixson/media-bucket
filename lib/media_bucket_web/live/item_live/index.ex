@@ -20,10 +20,11 @@ defmodule MediaBucketWeb.ItemLive.Index do
     |> assign(:item, Media.get_item!(id))
   end
 
-  defp apply_action(socket, :new, _params) do
+  defp apply_action(socket, :new, %{"category_id" => category_id}) do
+    category = Media.get_category!(category_id)
     socket
-    |> assign(:page_title, "New Item")
-    |> assign(:item, %Item{})
+    |> assign(:page_title, "Add Item to #{category.title}")
+    |> assign(:item, %Item{category_id: category.id})
   end
 
   defp apply_action(socket, :index, _params) do

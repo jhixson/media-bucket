@@ -4,7 +4,7 @@ defmodule MediaBucketWeb.ItemLive.Item do
   def render(assigns) do
     ~H"""
     <li class="flex justify-between items-center space-x-2 mb-4 p-4 bg-gray-700 border border-gray-600 rounded-md">
-      <label class="flex space-x-2 items-center cursor-pointer" phx-click="checkit" phx-target={@myself}>
+      <label class="flex space-x-2 items-center cursor-pointer" phx-click="update-status" phx-target={@myself}>
         <i class={@status_icon}></i>
         <h3><%= @item.title %></h3>
       </label>
@@ -15,7 +15,7 @@ defmodule MediaBucketWeb.ItemLive.Item do
     """
   end
 
-  def handle_event("checkit", _params, socket) do
+  def handle_event("update-status", _params, socket) do
     next_status =
       case socket.assigns.item.status do
         :pending -> :started
