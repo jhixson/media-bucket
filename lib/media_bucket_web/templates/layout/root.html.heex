@@ -13,10 +13,10 @@
     <link phx-track-static rel="stylesheet" href={Routes.static_path(@conn, "/assets/app.css")}/>
     <script defer phx-track-static type="text/javascript" src={Routes.static_path(@conn, "/assets/app.js")}></script>
   </head>
-  <body class="bg-gray-800 text-gray-200 font-body">
+  <body class="relative bg-gray-800 text-gray-200 font-body">
     <header>
-      <section class="container mx-auto px-4 lg:px-0">
-        <h1 class="mt-8 mb-12 text-center text-5xl font-display">Media Bucket List</h1>
+      <section class="container mx-auto mt-8 mb-12 px-4 lg:px-0">
+        <h1 class="mb-0 text-center text-5xl font-display">Media Bucket List</h1>
       </section>
     </header>
     <%= @inner_content %>

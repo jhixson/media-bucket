@@ -6,7 +6,12 @@ defmodule MediaBucketWeb.ItemLive.Index do
 
   @impl true
   def mount(_params, _session, socket) do
-    {:ok, assign(socket, :categories, list_categories())}
+    socket =
+      socket
+      |> assign(:categories, list_categories())
+      |> assign(:filters, %{})
+
+    {:ok, socket}
   end
 
   @impl true
@@ -22,6 +27,7 @@ defmodule MediaBucketWeb.ItemLive.Index do
 
   defp apply_action(socket, :new, %{"category_id" => category_id}) do
     category = Media.get_category!(category_id)
+
     socket
     |> assign(:page_title, "Add Item to #{category.title}")
     |> assign(:item, %Item{category_id: category.id})
@@ -63,6 +69,12 @@ defmodule MediaBucketWeb.ItemLive.Index do
     {:ok, _} = Media.delete_item(item)
 
     {:noreply, push_redirect(socket, to: Routes.item_index_path(socket, :index))}
+  end
+
+  @impl true
+  def handle_event("update-filters", params, socket) do
+    IO.inspect(params, label: "FILTERS")
+    {:noreply, socket}
   end
 
   defp list_categories do

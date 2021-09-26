@@ -102,3 +102,7 @@
   background-position: right center;
   background-size: 10px;
 }
+
+[x-cloak] {
+  display: none !important;
+}
