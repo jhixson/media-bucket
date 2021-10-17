@@ -40,6 +40,27 @@ defmodule MediaBucketWeb.ItemLive.Index do
   end
 
   @impl true
+  def handle_info({:new_item, item}, socket) do
+    categories =
+      socket.assigns.categories
+      |> Enum.map(fn category ->
+        cond do
+          item.category_id == category.id ->
+            items = Enum.sort_by([item | category.items], &(&1.title))
+            %{category | items: items}
+
+          true ->
+            category
+        end
+      end)
+
+    {:noreply,
+     socket
+     |> assign(:categories, categories)
+     |> push_patch(to: Routes.item_index_path(socket, :index))}
+  end
+
+  @impl true
   def handle_info({:updated_item, item}, socket) do
     categories = socket.assigns.categories |> Enum.map(&maybe_update_category(item, &1))
 
@@ -68,7 +89,23 @@ defmodule MediaBucketWeb.ItemLive.Index do
     item = Media.get_item!(id)
     {:ok, _} = Media.delete_item(item)
 
-    {:noreply, push_redirect(socket, to: Routes.item_index_path(socket, :index))}
+    categories =
+      socket.assigns.categories
+      |> Enum.map(fn category ->
+        cond do
+          item.category_id == category.id ->
+            items = Enum.reject(category.items, &(&1 == item))
+            %{category | items: items}
+
+          true ->
+            category
+        end
+      end)
+
+    {:noreply,
+     socket
+     |> assign(:categories, categories)
+     |> push_patch(to: Routes.item_index_path(socket, :index))}
   end
 
   @impl true

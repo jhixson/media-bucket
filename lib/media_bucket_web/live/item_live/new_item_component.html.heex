@@ -11,7 +11,7 @@
 
     <div class="mb-8">
       <%= label f, :title, class: "block text-xs text-gray-400" %>
-      <%= text_input f, :title, class: "w-full py-1 border-0 border-b bg-transparent" %>
+      <%= text_input f, :title, class: "w-full py-1 border-0 border-b bg-transparent", "phx-debounce": "1000" %>
       <%= error_tag f, :title %>
     </div>
 

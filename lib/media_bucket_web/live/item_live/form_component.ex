@@ -25,10 +25,9 @@ defmodule MediaBucketWeb.ItemLive.FormComponent do
 
   def handle_event("save", %{"item" => item_params}, socket) do
     case Media.update_item(socket.assigns.item, item_params) do
-      {:ok, _item} ->
-        {:noreply,
-         socket
-         |> push_redirect(to: socket.assigns.return_to)}
+      {:ok, item} ->
+        send self(), {:updated_item, item}
+        {:noreply, socket |> push_patch(to: Routes.item_index_path(socket, :index))}
 
       {:error, %Ecto.Changeset{} = changeset} ->
         {:noreply, assign(socket, :changeset, changeset)}

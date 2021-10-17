@@ -26,10 +26,9 @@ defmodule MediaBucketWeb.ItemLive.NewItemComponent do
   def handle_event("save", %{"item" => item_params}, socket) do
     item_with_category = item_params |> Map.put("category_id", socket.assigns.item.category_id)
     case Media.create_item(item_with_category) do
-      {:ok, _item} ->
-        {:noreply,
-         socket
-         |> push_redirect(to: socket.assigns.return_to)}
+      {:ok, item} ->
+        send self(), {:new_item, item}
+        {:noreply, socket}
 
       {:error, %Ecto.Changeset{} = changeset} ->
         {:noreply, assign(socket, changeset: changeset)}
