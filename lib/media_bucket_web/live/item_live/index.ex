@@ -72,8 +72,11 @@ defmodule MediaBucketWeb.ItemLive.Index do
   end
 
   @impl true
-  def handle_event("update-filters", params, socket) do
-    IO.inspect(params, label: "FILTERS")
+  def handle_event("update-filters", %{"filters" => filters}, socket) do
+    socket =
+      socket
+      |> assign(:filters, filters)
+
     {:noreply, socket}
   end
 

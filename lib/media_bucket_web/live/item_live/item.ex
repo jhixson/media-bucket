@@ -18,6 +18,7 @@ defmodule MediaBucketWeb.ItemLive.Item do
   def handle_event("update-status", _params, socket) do
     next_status =
       case socket.assigns.item.status do
+        nil -> :started
         :pending -> :started
         :started -> :finished
         _ -> :pending

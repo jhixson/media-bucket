@@ -15,7 +15,7 @@ defmodule MediaBucketWeb.ItemLive.Category do
         <% end %>
       </div>
       <ul>
-        <%= for item <- @category.items do %>
+        <%= for item <- filtered_items(@category.items, @filters) do %>
           <%= live_component MediaBucketWeb.ItemLive.Item, id: item.id, item: item, status_icon: status_icon(item.status)  %>
         <% end %>
       </ul>
@@ -29,5 +29,40 @@ defmodule MediaBucketWeb.ItemLive.Category do
       :finished -> "far fa-check-square"
       _ -> "far fa-square"
     end
+  end
+
+  defp has_rating(item, rating) do
+    item_rating = Integer.to_string(item.rating)
+
+    case rating do
+      nil -> true
+      "" -> true
+      ^item_rating -> true
+      _ -> false
+    end
+  end
+
+  defp has_status(item, status) do
+    item_status = Atom.to_string(item.status)
+
+    case status do
+      nil -> true
+      "" -> true
+      ^item_status -> true
+      _ -> false
+    end
+  end
+
+  defp filtered_items(items, filters) when filters == %{}, do: items
+  defp filtered_items(items, %{"status" => "", "rating" => ""}), do: items
+  defp filtered_items(items, %{"status" => status, "rating" => rating}) do
+    Enum.filter(items, fn item ->
+      with true <- has_rating(item, rating),
+           true <- has_status(item, status) do
+        true
+      else
+        _ -> false
+      end
+    end)
   end
 end

@@ -16,27 +16,10 @@
     return_to: Routes.item_index_path(@socket, :index) %>
 <% end %>
 
-<aside x-data="{open: false}">
-  <button class="absolute top-0 right-8" aria-label="Toggle filters" @click="open = true">
-    <i class="fas fa-filter"></i>
-  </button>
-
-  <section class="fixed top-0 right-0 w-1/5 h-full bg-gray-600" x-cloak x-show="open" @click.outside="open = false"
-        x-transition:enter="transition ease-out duration-300"
-        x-transition:enter-start="opacity-0 transform translate-x-16"
-        x-transition:enter-end="opacity-100 transform translate-x-0"
-        x-transition:leave="transition ease-in duration-200"
-        x-transition:leave-start="opacity-100 transform translate-x-0"
-        x-transition:leave-end="opacity-0 transform translate-x-16">
-    <.form let={f} for={:filters} class="px-8 py-12" phx-change="update-filters">
-      <%= select f, :rating, [One: 1, Two: 2, Three: 3, Four: 4, Five: 5], prompt: "Rating", class: "custom-select appearance-none w-full mb-6 px-0 pr-3 py-1 bg-gray-600 border-b" %>
-      <%= select f, :status, Ecto.Enum.mappings(MediaBucket.Media.Item, :status) |> Enum.map(fn {k, v} -> {String.capitalize(v), k} end), prompt: "Status", class: "custom-select appearance-none w-full px-0 pr-3 py-1 bg-gray-600 border-b" %>
-    </.form>
-  </section>
-</aside>
+<%= live_component MediaBucketWeb.ItemLive.Filters, id: "filter-sidebar", filters: @filters %>
 
 <section class="flex flex-col md:flex-row md:justify-center -mx-6">
   <%= for category <- @categories do %>
-    <%= live_component MediaBucketWeb.ItemLive.Category, id: category.id, category: category %>
+    <%= live_component MediaBucketWeb.ItemLive.Category, id: category.id, category: category, filters: @filters %>
   <% end %>
 </section>
