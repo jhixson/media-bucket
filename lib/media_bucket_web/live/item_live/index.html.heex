@@ -18,7 +18,7 @@
 
 <%= live_component MediaBucketWeb.ItemLive.Filters, id: "filter-sidebar", filters: @filters %>
 
-<section class="flex flex-col md:flex-row md:justify-center -mx-6">
+<section class="flex flex-col md:flex-row md:justify-center gap-10">
   <%= for category <- @categories do %>
     <%= live_component MediaBucketWeb.ItemLive.Category, id: category.id, category: category, filters: @filters %>
   <% end %>

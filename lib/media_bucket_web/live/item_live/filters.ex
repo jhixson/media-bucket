@@ -6,7 +6,7 @@ defmodule MediaBucketWeb.ItemLive.Filters do
     <aside id="filters" x-data="{open: false}">
       <div class="filters-overlay" :class="open && 'open'"></div>
       <button class="absolute top-0 right-8" aria-label="Toggle filters" @click="open = true">
-        <i class="fas fa-filter"></i>
+        <MediaBucketWeb.Icons.filter />
       </button>
 
       <section class="fixed top-0 right-0 w-1/5 h-full bg-gray-600 filters-sidebar z-20" x-cloak x-show="open" @click.outside="console.log('toggle'); open = false"
